@@ -14,13 +14,16 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  firstName String?
-  lastName  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  login        String   @unique
+  password     String
+  firstName    String?
+  lastName     String?
+  roleId       Int
+  roleLanguage String?
+  role         Role?    @relation(fields: [roleId, roleLanguage], references: [id, language])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   animals      Animal[]
   Notification Notification[]
@@ -80,4 +83,13 @@ model Notification {
 
   user   User   @relation(fields: [userId], references: [id])
   animal Animal @relation(fields: [animalId], references: [id])
+}
+
+model Role {
+  id       Int
+  language String
+  name     String @db.VarChar(100)
+  users    User[]
+
+  @@id([id, language])
 }
