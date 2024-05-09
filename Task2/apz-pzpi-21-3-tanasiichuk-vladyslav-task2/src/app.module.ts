@@ -4,6 +4,10 @@ import { PrismaModule } from './prisma';
 import { AuthModule } from './auth';
 import { UserModule } from './users';
 import { JwtModule } from '@nestjs/jwt';
+import { AnimalModule } from './animals';
+import { AnimalSpeciesModule } from './animals-species';
+import { NotificationModule } from './notifications';
+import { MetricModule } from './metrics';
 
 @Module({
   imports: [
@@ -18,7 +22,11 @@ import { JwtModule } from '@nestjs/jwt';
       }),
       inject: [ConfigService],
     }),
+    AnimalModule,
+    AnimalSpeciesModule,
     AuthModule,
+    MetricModule,
+    NotificationModule,
     UserModule,
     PrismaModule,
   ],
