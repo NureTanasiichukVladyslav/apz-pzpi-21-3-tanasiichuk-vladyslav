@@ -1,7 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
   IsInt,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -17,6 +18,15 @@ export class CreateEditAnimalDto {
   @ApiProperty()
   @IsDateString()
   dateOfBirth: string;
+
+  @ApiProperty()
+  @IsString()
+  gender: string;
+
+  @ApiPropertyOptional()
+  @IsInt()
+  @IsOptional()
+  weight: number;
 
   @ApiProperty()
   @IsInt()

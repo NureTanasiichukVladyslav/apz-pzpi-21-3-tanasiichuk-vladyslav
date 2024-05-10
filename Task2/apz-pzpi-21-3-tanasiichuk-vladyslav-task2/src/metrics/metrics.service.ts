@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma';
 import { MetricDto, CreateEditMetricDto } from './dtos';
 import { NotFoundMetric } from './common';
+import { AnalitycsService } from 'src/analitycs/analitycs.service';
 
 @Injectable()
 export class MetricService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly analitycsService: AnalitycsService,
+  ) {}
 
   public async getMetrics(animalId: number): Promise<MetricDto[]> {
     const metrics = await this.prismaService.metric.findMany({
@@ -77,7 +81,12 @@ export class MetricService {
     };
   }
 
-  public async createMetric(req: CreateEditMetricDto): Promise<{ id: number }> {
+  public async createMetric(
+    req: CreateEditMetricDto,
+    userId: number,
+  ): Promise<{ id: number }> {
+    await this.analitycsService.getLastMetricsAnalytics(req, userId);
+
     const metric = await this.prismaService.metric.create({
       data: {
         heartbeat: req.heartbeat,

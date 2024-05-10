@@ -12,6 +12,12 @@ export class AnimalSpeciesService {
       select: {
         id: true,
         name: true,
+        minHeartbeat: true,
+        maxHeartbeat: true,
+        minRespirationRate: true,
+        maxRespirationRate: true,
+        minTemperature: true,
+        maxTemperature: true,
       },
     });
   }
@@ -21,6 +27,12 @@ export class AnimalSpeciesService {
       select: {
         id: true,
         name: true,
+        minHeartbeat: true,
+        maxHeartbeat: true,
+        minRespirationRate: true,
+        maxRespirationRate: true,
+        minTemperature: true,
+        maxTemperature: true,
       },
       where: {
         id,
@@ -31,10 +43,7 @@ export class AnimalSpeciesService {
       throw new NotFoundAnimalSpecies('There is no animalSpecies with such id');
     }
 
-    return {
-      id: animalSpecies.id,
-      name: animalSpecies.name,
-    };
+    return animalSpecies;
   }
 
   public async createAnimalSpecies(
@@ -43,6 +52,12 @@ export class AnimalSpeciesService {
     const animalSpecies = await this.prismaService.animalSpecies.create({
       data: {
         name: req.name,
+        minHeartbeat: req.minHeartbeat,
+        maxHeartbeat: req.maxHeartbeat,
+        minRespirationRate: req.minRespirationRate,
+        maxRespirationRate: req.maxRespirationRate,
+        minTemperature: req.minTemperature,
+        maxTemperature: req.maxTemperature,
       },
       select: {
         id: true,
@@ -74,6 +89,12 @@ export class AnimalSpeciesService {
     await this.prismaService.animalSpecies.update({
       data: {
         name: req.name,
+        minHeartbeat: req.minHeartbeat,
+        maxHeartbeat: req.maxHeartbeat,
+        minRespirationRate: req.minRespirationRate,
+        maxRespirationRate: req.maxRespirationRate,
+        minTemperature: req.minTemperature,
+        maxTemperature: req.maxTemperature,
       },
       where: {
         id: animalSpeciesId,

@@ -8,6 +8,7 @@ import { AnimalModule } from './animals';
 import { AnimalSpeciesModule } from './animals-species';
 import { NotificationModule } from './notifications';
 import { MetricModule } from './metrics';
+import { AnalitycsModule } from './analitycs';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MetricModule } from './metrics';
       }),
       inject: [ConfigService],
     }),
+    AnalitycsModule,
     AnimalModule,
     AnimalSpeciesModule,
     AuthModule,

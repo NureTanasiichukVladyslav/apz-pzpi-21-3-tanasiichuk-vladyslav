@@ -96,6 +96,8 @@ export class AnimalService {
         dateOfBirth: req.dateOfBirth,
         userId: req.userId,
         speciesId: req.speciesId,
+        gender: req.gender,
+        weight: req.weight,
       },
       select: {
         id: true,
@@ -130,6 +132,8 @@ export class AnimalService {
         dateOfBirth: req.dateOfBirth,
         userId: req.userId,
         speciesId: req.speciesId,
+        gender: req.gender,
+        weight: req.weight,
       },
       where: {
         id: animalId,
