@@ -9,6 +9,7 @@ import { AnimalSpeciesModule } from './animals-species';
 import { NotificationModule } from './notifications';
 import { MetricModule } from './metrics';
 import { AnalitycsModule } from './analitycs';
+import { AdminModule } from './admin';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AnalitycsModule } from './analitycs';
       }),
       inject: [ConfigService],
     }),
+    AdminModule,
     AnalitycsModule,
     AnimalModule,
     AnimalSpeciesModule,

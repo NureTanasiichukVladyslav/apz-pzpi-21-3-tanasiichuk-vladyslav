@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = request.cookies.access_token;
-    console.log(request.cookies);
+
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -30,6 +30,7 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
+
     return true;
   }
 }

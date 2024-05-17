@@ -6,7 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignUpUserDto } from './dtos';
 import { roles } from 'prisma/seed';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +13,6 @@ export class AuthService {
     private userService: UserService,
     private prismaService: PrismaService,
     private jwtService: JwtService,
-    private configService: ConfigService,
   ) {}
   async signUp(signUpUserDto: SignUpUserDto) {
     const saltRounds = 10;
