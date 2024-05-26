@@ -1,0 +1,10 @@
+{
+    "device_id": 9,
+    "shared_secret": "$2b$04$jnzDwJgezeiNvYugTnPXGOnY8RxDNu48wiPapHKqKrMDfhNPPkSiG",
+    "max_heartbeat": 150,
+    "min_heartbeat": 50,
+    "max_respiration_rate": 100,
+    "min_respiration_rate": 50,
+    "max_temperature": 50,
+    "min_temperature": 20
+}

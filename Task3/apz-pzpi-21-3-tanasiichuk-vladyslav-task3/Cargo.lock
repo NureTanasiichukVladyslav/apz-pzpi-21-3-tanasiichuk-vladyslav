@@ -6,6 +6,7 @@ version = 3
 name = "Task3"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "chrono",
  "rand",
  "reqwest",
@@ -43,6 +44,12 @@ checksum = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "anyhow"
+version = "1.0.83"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25bdb32cbbdce2b519a9cd7df3a678443100e265d5e25ca763b7572a5104f5f3"
 
 [[package]]
 name = "autocfg"

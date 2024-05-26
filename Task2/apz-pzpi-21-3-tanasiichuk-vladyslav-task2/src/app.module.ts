@@ -10,6 +10,7 @@ import { NotificationModule } from './notifications';
 import { MetricModule } from './metrics';
 import { AnalitycsModule } from './analitycs';
 import { AdminModule } from './admin';
+import { DeviceModule } from './devices';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AdminModule } from './admin';
     AnimalModule,
     AnimalSpeciesModule,
     AuthModule,
+    DeviceModule,
     MetricModule,
     NotificationModule,
     UserModule,

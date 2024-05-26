@@ -145,16 +145,14 @@ export class AnalitycsService {
 
     const reasons: string[] = [];
 
-    const heartBeatDiff = Math.abs(
-      lastMetric.heartbeat - firstMetric.heartbeat,
-    );
-    const respirationDiff = Math.abs(
-      lastMetric.respirationRate - firstMetric.respirationRate,
-    );
-    const temperatureDiff = Math.abs(
-      lastMetric.temperature - firstMetric.temperature,
-    );
+    // Define coefficients for each metric
+    const coeffs = {
+      heartbeat: 0.4,
+      respirationRate: 0.3,
+      temperature: 0.3,
+    };
 
+    // Function to check thresholds and add reasons
     const checkThresholds = (
       metric: string,
       value: number,
@@ -177,6 +175,7 @@ export class AnalitycsService {
       }
     };
 
+    // Function to check all thresholds and add reasons
     const checkAllThresholds = (status: AnalitycsDto['status']) => {
       checkThresholds(
         'Heart rate',
@@ -201,38 +200,107 @@ export class AnalitycsService {
       );
     };
 
-    if (
-      lastMetric.heartbeat > maxHeartbeat ||
-      lastMetric.heartbeat < minHeartbeat ||
-      lastMetric.respirationRate > maxRespirationRate ||
-      lastMetric.respirationRate < minRespirationRate ||
-      lastMetric.temperature > maxTemperature ||
-      lastMetric.temperature < minTemperature
-    ) {
-      checkAllThresholds('critical');
+    // Calculate deviation percentage for a given metric
+    const calculateDeviationPercentage = (
+      value: number,
+      min: number,
+      max: number,
+    ) => {
+      if (value < min) {
+        return (min - value) / min;
+      } else if (value > max) {
+        return (value - max) / max;
+      } else {
+        return 0;
+      }
+    };
 
+    // Calculate the difference percentage between the first and last metrics
+    const calculateDifferencePercentage = (initial: number, final: number) => {
+      return Math.abs(final - initial) / initial;
+    };
+
+    // Calculate overall deviation score
+    const calculateDeviationScore = () => {
+      let score = 0;
+
+      const heartbeatDeviation = calculateDeviationPercentage(
+        lastMetric.heartbeat,
+        minHeartbeat,
+        maxHeartbeat,
+      );
+      const respirationDeviation = calculateDeviationPercentage(
+        lastMetric.respirationRate,
+        minRespirationRate,
+        maxRespirationRate,
+      );
+      const temperatureDeviation = calculateDeviationPercentage(
+        lastMetric.temperature,
+        minTemperature,
+        maxTemperature,
+      );
+
+      score += coeffs.heartbeat * Math.min(heartbeatDeviation, 1);
+      score += coeffs.respirationRate * Math.min(respirationDeviation, 1);
+      score += coeffs.temperature * Math.min(temperatureDeviation, 1);
+
+      return score;
+    };
+
+    // Calculate the differences between the first and last metrics
+    const heartbeatDifference = calculateDifferencePercentage(
+      firstMetric.heartbeat,
+      lastMetric.heartbeat,
+    );
+    const respirationDifference = calculateDifferencePercentage(
+      firstMetric.respirationRate,
+      lastMetric.respirationRate,
+    );
+    const temperatureDifference = calculateDifferencePercentage(
+      firstMetric.temperature,
+      lastMetric.temperature,
+    );
+
+    const overallDeviationScore = calculateDeviationScore();
+
+    // Define thresholds for differences to consider them significant
+    const significantDifferenceThreshold = 0.25;
+
+    if (
+      heartbeatDifference > significantDifferenceThreshold ||
+      respirationDifference > significantDifferenceThreshold ||
+      temperatureDifference > significantDifferenceThreshold
+    ) {
+      reasons.push(
+        `Significant changes detected: Heartbeat difference ${heartbeatDifference.toFixed(
+          2,
+        )}, Respiration rate difference ${respirationDifference.toFixed(
+          2,
+        )}, Temperature difference ${temperatureDifference.toFixed(2)}`,
+      );
+      return { status: 'warning', reasons };
+    }
+
+    if (overallDeviationScore >= 1.0) {
+      checkAllThresholds('critical');
       return { status: 'critical', reasons };
     }
 
-    if (
-      heartBeatDiff > maxHeartbeat - minHeartbeat * 0.2 ||
-      respirationDiff > maxRespirationRate - minRespirationRate * 0.2 ||
-      temperatureDiff > maxTemperature - minTemperature * 0.2
-    ) {
+    // Define thresholds for warning and ill statuses
+    const warningThreshold = 0.5;
+    const illThreshold = 0.75;
+
+    if (overallDeviationScore >= illThreshold) {
       checkAllThresholds('ill');
-
       return { status: 'ill', reasons };
-    } else if (
-      heartBeatDiff > (maxHeartbeat - minHeartbeat) * 0.1 ||
-      respirationDiff > (maxRespirationRate - minRespirationRate) * 0.1 ||
-      temperatureDiff > (maxTemperature - minTemperature) * 0.1
-    ) {
-      checkAllThresholds('warning');
-
-      return { status: 'warning', reasons };
-    } else {
-      return { status: 'fine', reasons: [] };
     }
+
+    if (overallDeviationScore >= warningThreshold) {
+      checkAllThresholds('warning');
+      return { status: 'warning', reasons };
+    }
+
+    return { status: 'fine', reasons: [] };
   }
 
   private async sendNotification(

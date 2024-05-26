@@ -82,27 +82,31 @@ export class MetricService {
   }
 
   public async createMetric(
-    req: CreateEditMetricDto,
+    reqMetrics: CreateEditMetricDto[],
     userId: number,
-  ): Promise<{ id: number }> {
-    await this.analitycsService.getLastMetricsAnalytics(req, userId);
+  ): Promise<{ id: number }[]> {
+    return Promise.all(
+      reqMetrics.map(async (reqMetric) => {
+        await this.analitycsService.getLastMetricsAnalytics(reqMetric, userId);
 
-    const metric = await this.prismaService.metric.create({
-      data: {
-        heartbeat: req.heartbeat,
-        respirationRate: req.respirationRate,
-        temperature: req.temperature,
-        timestamp: req.timestamp,
-        animalId: req.animalId,
-      },
-      select: {
-        id: true,
-      },
-    });
+        const metric = await this.prismaService.metric.create({
+          data: {
+            heartbeat: reqMetric.heartbeat,
+            respirationRate: reqMetric.respirationRate,
+            temperature: reqMetric.temperature,
+            timestamp: reqMetric.timestamp,
+            animalId: reqMetric.animalId,
+          },
+          select: {
+            id: true,
+          },
+        });
 
-    return {
-      id: metric.id,
-    };
+        return {
+          id: metric.id,
+        };
+      }),
+    );
   }
 
   public async editMetric(
