@@ -43,9 +43,8 @@ export class MetricController {
 
   @Post()
   @ApiBearerAuth()
-  async createMetric(@Req() req, @Body() body: CreateEditMetricDto[]) {
-    console.log('body', body);
-    // return await this.metricService.createMetric(body, req.user.sub);
+  async createMetric(@Body() body: CreateEditMetricDto[]) {
+    return await this.metricService.createMetric(body);
   }
 
   @Put(':id')

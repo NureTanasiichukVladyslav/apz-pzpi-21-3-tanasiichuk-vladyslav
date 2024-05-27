@@ -65,7 +65,6 @@ pub mod device_data {
 
     pub async fn register() -> anyhow::Result<DeviceData> {
         let settings = read_settings()?;
-        println!("{:?}",&settings);
 
         let payload = RegisterRequestPayload { animalId: settings.animal_id };
 
@@ -89,6 +88,8 @@ pub mod device_data {
             max_temperature: res.maxTemperature,
             min_temperature: res.minTemperature,
         };
+
+        println!("Device succesfully registered");
 
         Ok(response_data)
     }

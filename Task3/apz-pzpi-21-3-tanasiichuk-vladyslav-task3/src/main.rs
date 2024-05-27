@@ -43,9 +43,8 @@ async fn main() {
 
                 // Check for critical values
                 if is_critical(&payload, &device_data) {
-                    // send_critical_data(payload).await.unwrap();
+                    send_critical_data(payload).await.unwrap();
                 } else {
-                    println!("inside data buffer");
                     data_buffer.push(payload);
                 }
             },
@@ -64,7 +63,7 @@ fn is_critical(payload: &RequestPayload, device_data: &DeviceData) -> bool {
 }
 
 fn generate_payload(device_data: &DeviceData, settings:&Settings, rng: &mut impl Rng) -> RequestPayload {
-    let critical_threshold = 1.1;
+    let critical_threshold = 1.05;
   
     let respiration_rate = rng.gen_range(
       (device_data.min_respiration_rate as f64)/critical_threshold..(device_data.max_respiration_rate as f64)*critical_threshold

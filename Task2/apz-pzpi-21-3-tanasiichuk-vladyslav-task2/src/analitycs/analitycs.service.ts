@@ -30,8 +30,8 @@ export class AnalitycsService {
       where: {
         animalId,
         timestamp: {
-          lte: req.endDate,
-          gte: req.startDate,
+          ...(req.endDate && { lte: req.endDate }),
+          ...(req.startDate && { gte: req.startDate }),
         },
       },
     });
@@ -55,6 +55,9 @@ export class AnalitycsService {
     avgMetrics.avgRespirationRate /= metrics.length;
     avgMetrics.avgTemperature /= metrics.length;
 
+    console.log(avgMetrics);
+    console.log(metrics);
+
     return {
       id: animalId,
       heartbeat: avgMetrics.avgHeartbeat,
@@ -66,7 +69,6 @@ export class AnalitycsService {
 
   public async getLastMetricsAnalytics(
     req: CreateEditMetricDto,
-    userId: number,
   ): Promise<{ status: string }> {
     const metrics = await this.prismaService.metric.findMany({
       select: {
@@ -89,14 +91,32 @@ export class AnalitycsService {
       },
     });
 
-    const status = this.getStatus([...metrics, req]);
+    const animal = await this.prismaService.animal.findFirst({
+      select: {
+        id: true,
+        name: true,
+        species: true,
+        userId: true,
+      },
+      where: {
+        id: req.animalId,
+      },
+    });
+
+    const status = this.getStatus([
+      ...metrics,
+      {
+        ...req,
+        animal,
+      },
+    ]);
     await this.sendNotification(
       status,
       {
-        id: metrics[0].animal.id,
-        name: metrics[0].animal.name,
+        id: animal.id,
+        name: animal.name,
       },
-      userId,
+      animal.userId,
     );
 
     return {
@@ -130,6 +150,7 @@ export class AnalitycsService {
         reasons: [],
       };
     }
+    console.log(metrics);
 
     const firstMetric = metrics[0];
     const lastMetric = metrics[metrics.length - 1];

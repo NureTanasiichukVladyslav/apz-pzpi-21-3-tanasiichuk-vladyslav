@@ -1,9 +1,9 @@
 import {
   Body,
   Controller,
-  Get,
   Param,
   ParseIntPipe,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { AnalitycsDto, GetAnalitycsRequestDto } from './dtos';
@@ -16,7 +16,7 @@ import { AuthGuard } from 'src/auth';
 export class AnalitycsController {
   constructor(private analitycsService: AnalitycsService) {}
 
-  @Get(':animalId')
+  @Post(':animalId')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async getAverageMetricsAnalitycs(

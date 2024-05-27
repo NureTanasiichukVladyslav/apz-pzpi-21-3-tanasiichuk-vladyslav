@@ -5,10 +5,10 @@ export class GetAnalitycsRequestDto {
   @ApiPropertyOptional()
   @IsDateString()
   @IsOptional()
-  startDate: string;
+  startDate?: string;
 
   @ApiPropertyOptional()
   @IsDateString()
   @IsOptional()
-  endDate: string;
+  endDate?: string;
 }

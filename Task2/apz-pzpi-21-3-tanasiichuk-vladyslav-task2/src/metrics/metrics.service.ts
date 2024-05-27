@@ -83,11 +83,10 @@ export class MetricService {
 
   public async createMetric(
     reqMetrics: CreateEditMetricDto[],
-    userId: number,
   ): Promise<{ id: number }[]> {
     return Promise.all(
       reqMetrics.map(async (reqMetric) => {
-        await this.analitycsService.getLastMetricsAnalytics(reqMetric, userId);
+        await this.analitycsService.getLastMetricsAnalytics(reqMetric);
 
         const metric = await this.prismaService.metric.create({
           data: {

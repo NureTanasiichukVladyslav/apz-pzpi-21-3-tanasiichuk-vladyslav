@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { DeviceService } from './devices.service';
+import { CreateEditDeviceDto } from './dtos';
 
 @ApiTags('device')
 @Controller('device')
@@ -16,7 +17,7 @@ export class DeviceController {
   constructor(private deviceService: DeviceService) {}
 
   @Post()
-  async createDevice(@Body() { animalId }: { animalId: number }) {
+  async createDevice(@Body() { animalId }: CreateEditDeviceDto) {
     const res = await this.deviceService.createDevice(animalId);
     return res;
   }
@@ -25,7 +26,7 @@ export class DeviceController {
   @ApiBearerAuth()
   async editDevice(
     @Param('id', ParseIntPipe) id: number,
-    @Body() { animalId }: { animalId: number },
+    @Body() { animalId }: CreateEditDeviceDto,
   ) {
     return await this.deviceService.editDevice(id, animalId);
   }
