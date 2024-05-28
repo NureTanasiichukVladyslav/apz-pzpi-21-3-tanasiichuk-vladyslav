@@ -8,7 +8,6 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { MetricDto, CreateEditMetricDto } from './dtos';
@@ -21,13 +20,6 @@ import { AuthGuard } from 'src/auth';
 @Controller('metric')
 export class MetricController {
   constructor(private metricService: MetricService) {}
-
-  @Get()
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
-  async getMetrics(@Req() req) {
-    return await this.metricService.getMetrics(req.user.sub);
-  }
 
   @Get(':id')
   async getMetric(@Param('id', ParseIntPipe) id: number): Promise<MetricDto> {

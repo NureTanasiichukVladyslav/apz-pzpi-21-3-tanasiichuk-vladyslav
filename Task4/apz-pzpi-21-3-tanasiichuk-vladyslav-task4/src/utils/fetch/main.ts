@@ -73,6 +73,20 @@ const post = async <T = void>(
     },
   });
 
+const put = async <T = void>(
+  resource: string,
+  body?: Record<string, any>,
+  requestOptions?: RequestOptions
+) =>
+  baseFetch<T>(resource, {
+    ...requestOptions,
+    config: {
+      ...requestOptions?.config,
+      method: "PUT",
+      body: body && JSON.stringify(body),
+    },
+  });
+
 const delete$ = async <T = void>(
   resource: string,
   requestOptions?: RequestOptions
@@ -85,23 +99,9 @@ const delete$ = async <T = void>(
     },
   });
 
-const postFile = async <T = void>(
-  resource: string,
-  formData: FormData,
-  requestOptions?: RequestOptions
-) =>
-  baseFetch<T>(resource, {
-    ...requestOptions,
-    config: {
-      ...requestOptions?.config,
-      method: "POST",
-      body: formData,
-    },
-  });
-
 export const fetchClient = {
   get,
   post,
-  postFile,
+  put,
   delete$,
 };

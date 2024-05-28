@@ -16,11 +16,16 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AnimalService } from './animals.service';
 import { NotFoundAnimal } from './common';
 import { AuthGuard } from 'src/auth';
+import { MetricService } from 'src/metrics/metrics.service';
+import { MetricDto } from 'src/metrics';
 
 @ApiTags('animals')
 @Controller('animals')
 export class AnimalController {
-  constructor(private animalService: AnimalService) {}
+  constructor(
+    private animalService: AnimalService,
+    private metricService: MetricService,
+  ) {}
 
   @Get()
   @ApiBearerAuth()
@@ -39,6 +44,13 @@ export class AnimalController {
       }
       throw error;
     }
+  }
+
+  @Get(':id/metrics')
+  async getAnimalMetrics(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<MetricDto[]> {
+    return await this.metricService.getMetrics(id);
   }
 
   @Post()

@@ -13,6 +13,8 @@ export class AnimalService {
         id: true,
         name: true,
         dateOfBirth: true,
+        gender: true,
+        weight: true,
         user: {
           select: {
             id: true,
@@ -35,6 +37,8 @@ export class AnimalService {
       id: animal.id,
       name: animal.name,
       dateOfBirth: animal.dateOfBirth.toISOString(),
+      gender: animal.gender,
+      weight: animal.weight,
       species: {
         id: animal.species.id,
         name: animal.species.name,
@@ -52,6 +56,8 @@ export class AnimalService {
         id: true,
         name: true,
         dateOfBirth: true,
+        gender: true,
+        weight: true,
         user: {
           select: {
             id: true,
@@ -78,6 +84,8 @@ export class AnimalService {
       id: animal.id,
       name: animal.name,
       dateOfBirth: animal.dateOfBirth.toISOString(),
+      gender: animal.gender,
+      weight: animal.weight,
       species: {
         id: animal.species.id,
         name: animal.species.name,

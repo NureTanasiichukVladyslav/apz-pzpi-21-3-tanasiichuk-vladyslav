@@ -150,7 +150,6 @@ export class AnalitycsService {
         reasons: [],
       };
     }
-    console.log(metrics);
 
     const firstMetric = metrics[0];
     const lastMetric = metrics[metrics.length - 1];

@@ -42,8 +42,11 @@ export const NavLinks = ({ user }: Props) => {
               <Link href="/animals/create" underline="hover">
                 <Typography fontWeight="400">Add new animal</Typography>
               </Link>
-              <Link href="/animals/tracked" underline="hover">
+              <Link href="/animal-species/create" underline="hover">
                 <Typography fontWeight="400">Add new animal species</Typography>
+              </Link>
+              <Link href="/animal-species" underline="hover">
+                <Typography fontWeight="400">Animal species</Typography>
               </Link>
               <Button onClick={handleLogout}>
                 <Typography fontWeight="400" textTransform="none">

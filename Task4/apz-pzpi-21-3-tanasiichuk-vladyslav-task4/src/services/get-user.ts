@@ -3,7 +3,7 @@ import { fetchClient } from "@/utils/fetch";
 
 export async function getUser() {
   try {
-    const response = await fetchClient.get<UserDto>(`/auth/user`, {
+    const response = await fetchClient.get<UserDto>(`auth/user`, {
       next: { tags: ["user"] },
     });
     return response;

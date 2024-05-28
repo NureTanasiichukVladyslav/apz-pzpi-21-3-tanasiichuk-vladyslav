@@ -26,6 +26,7 @@ export class MetricService {
           },
         },
       },
+      take: 10,
       where: {
         animalId,
       },

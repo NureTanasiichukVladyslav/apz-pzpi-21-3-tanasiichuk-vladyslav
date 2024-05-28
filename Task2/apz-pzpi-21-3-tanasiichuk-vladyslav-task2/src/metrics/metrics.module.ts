@@ -7,5 +7,6 @@ import { AnalitycsModule } from 'src/analitycs';
   imports: [AnalitycsModule],
   controllers: [MetricController],
   providers: [MetricService],
+  exports: [MetricService],
 })
 export class MetricModule {}
