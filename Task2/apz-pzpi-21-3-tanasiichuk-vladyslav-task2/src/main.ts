@@ -14,7 +14,7 @@ async function bootstrap() {
   );
 
   app.use(cookieParser());
-  app.enableCors({ origin: 'http://localhost:3000/api#/', credentials: true });
+  app.enableCors({ origin: 'http://localhost:3001', credentials: true });
 
   const config = new DocumentBuilder()
     .setTitle(

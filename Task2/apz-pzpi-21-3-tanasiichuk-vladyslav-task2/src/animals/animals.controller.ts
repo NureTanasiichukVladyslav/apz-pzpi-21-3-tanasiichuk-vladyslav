@@ -17,8 +17,8 @@ import { AnimalService } from './animals.service';
 import { NotFoundAnimal } from './common';
 import { AuthGuard } from 'src/auth';
 
-@ApiTags('animal')
-@Controller('animal')
+@ApiTags('animals')
+@Controller('animals')
 export class AnimalController {
   constructor(private animalService: AnimalService) {}
 

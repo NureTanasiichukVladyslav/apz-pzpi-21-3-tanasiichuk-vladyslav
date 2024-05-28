@@ -1,0 +1,1 @@
+export { revalidateTag } from "./main";

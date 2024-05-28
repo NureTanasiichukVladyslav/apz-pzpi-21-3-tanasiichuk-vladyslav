@@ -43,6 +43,16 @@ export class AuthController {
     return res.status(200).json('Logged succesfully');
   }
 
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('access_token', null, {
+      maxAge: -1,
+      httpOnly: true,
+      path: '/',
+    });
+    return res.status(200).json('Logged out succesfully');
+  }
+
   @Get('/user')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
