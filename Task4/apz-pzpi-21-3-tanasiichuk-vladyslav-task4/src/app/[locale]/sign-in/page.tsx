@@ -5,7 +5,13 @@ import { Button, Stack, TextField, Typography, Link } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import { useCurrentLocale } from "next-i18n-router/client";
+import { i18nConfig } from "@/i18nConfig";
+import { useTranslation } from "react-i18next";
+
 export default function Page() {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -29,14 +35,15 @@ export default function Page() {
       revalidateTag("user");
       router.push("/");
     } catch (err) {
-      setErrorMessage("Login failed!");
+      setErrorMessage(t("loginFailed"));
     }
   };
 
   return (
     <Stack gap={4}>
+      <h3></h3>
       <Typography variant="h5" align="center">
-        Sign in
+        {t("signIn")}
       </Typography>
       <form onSubmit={handleSubmit}>
         <Stack gap={2}>
@@ -45,7 +52,7 @@ export default function Page() {
             required
             fullWidth
             id="login"
-            label="Login"
+            label={t("login")}
             name="login"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
@@ -56,7 +63,7 @@ export default function Page() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t("password")}
             type="password"
             id="password"
             value={password}
@@ -64,10 +71,10 @@ export default function Page() {
             error={!!errorMessage}
           />
           <Button type="submit" fullWidth variant="contained" color="primary">
-            Sign In
+            {t("signIn")}
           </Button>
           <Link href="/sign-up" variant="body2">
-            Dont have an account? Sign Up
+            {t("dontHaveAccount")}
           </Link>
         </Stack>
         {errorMessage && ( // Conditionally render error message

@@ -5,6 +5,8 @@ import { Button, Container, Link, Stack } from "@mui/material";
 import { fetchClient } from "@/utils/fetch";
 import { revalidateTag } from "@/utils/revalidate-tag";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import LanguageChanger from "./language-changer";
 
 interface Props {
   user?: { id: number; login: string };
@@ -12,6 +14,8 @@ interface Props {
 
 export const NavLinks = ({ user }: Props) => {
   const router = useRouter();
+
+  const { t } = useTranslation();
 
   const handleLogout = async () => {
     try {
@@ -33,32 +37,35 @@ export const NavLinks = ({ user }: Props) => {
       >
         <Link href="/" underline="none">
           <Typography variant="h6" fontWeight="700" color="text.secondary">
-            Home
+            {t("home")}
           </Typography>
         </Link>
         <Stack direction="row" alignItems="center" gap={4}>
           {user ? (
             <>
               <Link href="/animals/create" underline="hover">
-                <Typography fontWeight="400">Add new animal</Typography>
+                <Typography fontWeight="400">{t("addAnimal")}</Typography>
               </Link>
               <Link href="/animal-species/create" underline="hover">
-                <Typography fontWeight="400">Add new animal species</Typography>
+                <Typography fontWeight="400">
+                  {t("addAnimalSpecies")}
+                </Typography>
               </Link>
               <Link href="/animal-species" underline="hover">
-                <Typography fontWeight="400">Animal species</Typography>
+                <Typography fontWeight="400">{t("animalSpecies")}</Typography>
               </Link>
               <Button onClick={handleLogout}>
                 <Typography fontWeight="400" textTransform="none">
-                  Log out
+                  {t("logOut")}
                 </Typography>
               </Button>
             </>
           ) : (
             <Link href="/sign-in" underline="none">
-              <Typography fontWeight="400">Log in</Typography>
+              <Typography fontWeight="400">{t("logIn")}</Typography>
             </Link>
           )}
+          <LanguageChanger />
         </Stack>
       </Stack>
     </Container>

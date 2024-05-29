@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   animalSpecies: AnimalSpeciesDto[];
@@ -24,6 +25,9 @@ interface Props {
 
 export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
   const router = useRouter();
+
+  const { t } = useTranslation();
+
   const [name, setName] = useState(animal?.name ?? "");
   const [dateOfBirth, setDateOfBirth] = useState(
     animal?.dateOfBirth.split("T")[0] ?? ""
@@ -42,7 +46,7 @@ export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
       await onSubmit({ name, dateOfBirth, gender, weight, speciesId });
       await router.push("/");
     } catch (err) {
-      setErrorMessage("Something went wrong. Try again later.");
+      setErrorMessage(t("errorMessage"));
     }
   };
 
@@ -54,7 +58,7 @@ export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
           required
           fullWidth
           id="name"
-          label="Name"
+          label={t("name")}
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -65,7 +69,7 @@ export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
           required
           fullWidth
           id="dateOfBirth"
-          label="Date of Birth"
+          label={t("dateOfBirth")}
           name="dateOfBirth"
           type="date"
           value={dateOfBirth}
@@ -78,21 +82,21 @@ export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
           required
           fullWidth
           id="gender"
-          label="Gender"
+          label={t("gender")}
           name="gender"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
           error={!!errorMessage}
         >
-          <MenuItem value="male">Male</MenuItem>
-          <MenuItem value="female">Female</MenuItem>
+          <MenuItem value="male">{t("male")}</MenuItem>
+          <MenuItem value="female">{t("female")}</MenuItem>
         </Select>
         <TextField
           variant="outlined"
           required
           fullWidth
           id="weight"
-          label="Weight"
+          label={t("weight")}
           name="weight"
           type="number"
           value={weight}
@@ -104,7 +108,7 @@ export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
           required
           fullWidth
           id="speciesId"
-          label="Species"
+          label={t("species")}
           name="speciesId"
           value={speciesId}
           onChange={(e) => setSpeciesId(Number(e.target.value))}
@@ -117,12 +121,12 @@ export function FormFields({ animalSpecies, onSubmit, animal }: Props) {
           ))}
         </Select>
         <Button type="submit" fullWidth variant="contained" color="primary">
-          {animal ? "Edit" : "Create"}
+          {animal ? t("edit") : t("add")}
         </Button>
       </Stack>
       {errorMessage && (
         <Typography variant="body2" color="error">
-          {errorMessage}
+          {t("errorMessage")}
         </Typography>
       )}
     </form>

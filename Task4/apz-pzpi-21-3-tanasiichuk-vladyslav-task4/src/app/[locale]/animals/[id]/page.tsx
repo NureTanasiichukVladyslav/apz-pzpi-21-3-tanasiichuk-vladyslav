@@ -1,7 +1,5 @@
 import EditIcon from "@mui/icons-material/Edit";
 import { DeleteButton } from "@/components";
-import { AnalitycsDto, AnimalDto, MetricDto } from "@/types";
-import { fetchClient } from "@/utils/fetch";
 import { formatDate } from "@/utils/format-date";
 import {
   Container,
@@ -15,29 +13,24 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-
-async function getAnimalData(id: number) {
-  return fetchClient.get<AnimalDto>(`animals/${id}`);
-}
-
-async function getAnimalMetricsData(id: number) {
-  return fetchClient.get<MetricDto[]>(`animals/${id}/metrics`);
-}
-
-async function getAnimalMetricsAnalitycs(id: number) {
-  return fetchClient.post<AnalitycsDto>(`analitycs/${id}`);
-}
+import { getAnimalMetricsData } from "@/services/get-animal-metrics";
+import { getAnalitycs } from "@/services/get-analitycs";
+import { getAnimal } from "@/services/get-animal";
+import { formatMetricDate } from "@/utils/format-metric-date";
+import initTranslations from "@/app/i18n";
 
 export default async function Page({
-  params: { id },
+  params: { id, locale },
 }: {
-  params: { id: number };
+  params: { id: number; locale: string };
 }) {
   const [animal, animalMetrics, analitycs] = await Promise.all([
-    getAnimalData(id),
+    getAnimal(id),
     getAnimalMetricsData(id),
-    getAnimalMetricsAnalitycs(id),
+    getAnalitycs(id),
   ]);
+
+  const { t } = await initTranslations(locale);
 
   if (!animal) {
     return null;
@@ -49,35 +42,38 @@ export default async function Page({
         <Stack flexDirection="row" justifyContent="space-between">
           <Stack gap={2}>
             <Typography variant="h4">{animal.name}</Typography>
-            <Typography>Species: {animal.species.name}</Typography>
             <Typography>
-              Date of birth: {formatDate(animal.dateOfBirth)}
+              {t("species")}: {animal.species.name}
+            </Typography>
+            <Typography>
+              {t("dateOfBirth")}: {formatDate(animal.dateOfBirth)}
             </Typography>
             {animalMetrics && (
               <Stack gap={2}>
                 <Typography variant="body1" fontWeight="600">
-                  Last metrics:
+                  {t("lastMetrics")}:
                 </Typography>
                 <Stack direction="row">
                   <Typography>
-                    Heartbeat: <strong>{animalMetrics[0].heartbeat}</strong>
+                    {t("heartbeat")}:{" "}
+                    <strong>{animalMetrics[0].heartbeat}</strong>
                   </Typography>
                 </Stack>
                 <Stack direction="row">
                   <Typography>
-                    Respiration rate:{" "}
+                    {t("respirationRate")}:{" "}
                     <strong>{animalMetrics[0].respirationRate}</strong>
                   </Typography>
                 </Stack>
                 <Stack direction="row">
                   <Typography>
-                    Temperature :{" "}
+                    {t("temperature")}:{" "}
                     <strong>{animalMetrics[0].temperature}</strong>
                   </Typography>
                 </Stack>
                 <Stack direction="row">
                   <Typography>
-                    Was taken at:{" "}
+                    {t("time")}:{" "}
                     <strong>{formatDate(animalMetrics[0].timestamp)}</strong>
                   </Typography>
                 </Stack>
@@ -86,13 +82,13 @@ export default async function Page({
             {analitycs && (
               <Stack direction="row" gap={2} alignItems="center" mt={2}>
                 <Typography variant="body1">
-                  Status:{" "}
+                  {t("status")}:{" "}
                   <strong style={{ textTransform: "capitalize" }}>
                     {analitycs.status}
                   </strong>
                 </Typography>
                 <Link href={`/animals/${id}/analitycs`} underline="hover">
-                  <Typography>Watch detailed analitycs</Typography>
+                  <Typography>{t("watchDetailedAnalitycs")}</Typography>
                 </Link>
               </Stack>
             )}
@@ -107,10 +103,10 @@ export default async function Page({
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <TableCell>Heartbeat</TableCell>
-              <TableCell>Respiration rate</TableCell>
-              <TableCell>Temperature</TableCell>
-              <TableCell align="right">Time</TableCell>
+              <TableCell>{t("heartbeat")}</TableCell>
+              <TableCell>{t("respirationRate")}</TableCell>
+              <TableCell>{t("temperature")}</TableCell>
+              <TableCell align="right">{t("time")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -120,7 +116,7 @@ export default async function Page({
                 <TableCell>{metric.respirationRate}</TableCell>
                 <TableCell>{metric.temperature}</TableCell>
                 <TableCell align="right">
-                  {formatDate(metric.timestamp)}
+                  {formatMetricDate(metric.timestamp)}
                 </TableCell>
               </TableRow>
             ))}

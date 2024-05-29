@@ -3,13 +3,19 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Container, Stack, Typography, Link, IconButton } from "@mui/material";
+import { Container, Stack, Typography, IconButton } from "@mui/material";
 import { DeleteButton } from "@/components";
 import EditIcon from "@mui/icons-material/Edit";
 import { getAnimalSpecies } from "@/services/get-animal-species";
+import initTranslations from "@/app/i18n";
 
-export default async function Home() {
+export default async function Home({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   const animalSpecies = await getAnimalSpecies();
+  const { t } = await initTranslations(locale);
 
   if (!animalSpecies) {
     return null;
@@ -18,17 +24,20 @@ export default async function Home() {
   return (
     <Container maxWidth="xl">
       <Stack gap={4}>
-        <Typography variant="h3">All animal species</Typography>
+        <Typography variant="h3">{t("animalSpecies")}</Typography>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Minimal heartbeat</TableCell>
-              <TableCell align="right">Maximal heartbeat</TableCell>
-              <TableCell align="right">Minimal respiration rate</TableCell>
-              <TableCell align="right">Maximal respiration rate</TableCell>{" "}
-              <TableCell align="right">Minimal temperature</TableCell>
-              <TableCell align="right">Maximal temperature</TableCell>
+              <TableCell>{t("name")}</TableCell>
+              <TableCell align="right">{t("minHeartbeat")}</TableCell>
+              <TableCell align="right">{t("maxHeartbeat")}</TableCell>
+              <TableCell align="right">{t("minRespirationRate")}</TableCell>
+              <TableCell align="right">
+                {t("maxRespirationRate")}
+              </TableCell>{" "}
+              <TableCell align="right">{t("minTemperature")}</TableCell>
+              <TableCell align="right">{t("maxTemperature")}</TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -47,7 +56,7 @@ export default async function Home() {
                 </TableCell>
                 <TableCell align="right">{spesies.minTemperature}</TableCell>
                 <TableCell align="right">{spesies.maxTemperature}</TableCell>
-                <TableCell align="right">
+                <TableCell align="right" width={150}>
                   <IconButton href={`/animal-species/${spesies.id}/edit`}>
                     <EditIcon color="primary" />
                   </IconButton>

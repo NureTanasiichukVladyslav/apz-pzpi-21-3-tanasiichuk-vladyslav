@@ -3,8 +3,11 @@ import { CreateEditAnimalSpeciesDto } from "@/types";
 import { fetchClient } from "@/utils/fetch";
 import { Stack, Typography } from "@mui/material";
 import { FormFields } from "./ui";
+import { useTranslation } from "react-i18next";
 
 export function CreateAnimalSpeciesForm() {
+  const { t } = useTranslation();
+
   const createAnimalSpecies = async ({
     name,
     maxHeartbeat,
@@ -28,7 +31,7 @@ export function CreateAnimalSpeciesForm() {
   return (
     <Stack gap={4}>
       <Typography variant="h5" align="center">
-        Create new animal species
+        {t("addAnimalSpecies")}
       </Typography>
       <FormFields onSubmit={createAnimalSpecies} />
     </Stack>

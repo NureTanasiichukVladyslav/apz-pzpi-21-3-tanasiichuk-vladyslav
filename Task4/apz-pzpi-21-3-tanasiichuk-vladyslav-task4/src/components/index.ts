@@ -1,5 +1,5 @@
 export { Header } from "./app-header";
-export { ToastProvider } from "./providers";
+export { ToastProvider, TranslationsProvider } from "./providers";
 export {
   CreateAnimalForm,
   CreateAnimalSpeciesForm,

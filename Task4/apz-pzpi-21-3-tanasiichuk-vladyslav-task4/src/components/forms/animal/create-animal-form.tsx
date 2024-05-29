@@ -3,6 +3,7 @@ import { AnimalSpeciesDto, CreateEditAnimalDto, UserDto } from "@/types";
 import { fetchClient } from "@/utils/fetch";
 import { Stack, Typography } from "@mui/material";
 import { FormFields } from "./ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   user: UserDto;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export function CreateAnimalForm({ user, animalSpecies }: Props) {
+  const { t } = useTranslation();
+
   const createAnimal = async ({
     name,
     dateOfBirth,
@@ -31,7 +34,7 @@ export function CreateAnimalForm({ user, animalSpecies }: Props) {
   return (
     <Stack gap={4}>
       <Typography variant="h5" align="center">
-        Create new animal
+        {t("addAnimal")}
       </Typography>
       <FormFields animalSpecies={animalSpecies} onSubmit={createAnimal} />
     </Stack>

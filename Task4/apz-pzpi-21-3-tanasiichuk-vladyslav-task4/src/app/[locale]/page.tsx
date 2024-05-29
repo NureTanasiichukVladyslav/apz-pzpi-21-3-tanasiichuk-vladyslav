@@ -9,13 +9,19 @@ import TableRow from "@mui/material/TableRow";
 import { Container, Stack, Typography, Link, IconButton } from "@mui/material";
 import { DeleteButton } from "@/components";
 import EditIcon from "@mui/icons-material/Edit";
+import initTranslations from "../i18n";
 
 async function getData() {
   return fetchClient.get<AnimalDto[]>("/animals");
 }
 
-export default async function Home() {
+export default async function Home({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   const [animals] = await Promise.all([getData()]);
+  const { t } = await initTranslations(locale);
 
   if (!animals) {
     return null;
@@ -24,15 +30,15 @@ export default async function Home() {
   return (
     <Container maxWidth="xl">
       <Stack gap={4}>
-        <Typography variant="h3">All animals</Typography>
+        <Typography variant="h3">{t("allAnimals")}</Typography>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Species</TableCell>
-              <TableCell align="right">Gender</TableCell>
-              <TableCell align="right">Weight</TableCell>
-              <TableCell align="right">Date of birth</TableCell>
+              <TableCell>{t("name")}</TableCell>
+              <TableCell align="right">{t("species")}</TableCell>
+              <TableCell align="right">{t("gender")}</TableCell>
+              <TableCell align="right">{t("weight")}</TableCell>
+              <TableCell align="right">{t("dateOfBirth")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -3,6 +3,7 @@ import { CreateEditAnimalSpeciesDto } from "@/types";
 import { Button, Slider, Stack, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   animalSpecies?: CreateEditAnimalSpeciesDto;
@@ -11,6 +12,9 @@ interface Props {
 
 export function FormFields({ animalSpecies, onSubmit }: Props) {
   const router = useRouter();
+
+  const { t } = useTranslation();
+
   const [name, setName] = useState(animalSpecies?.name ?? "");
   const [heartbeatRange, setHeartbeatRange] = useState<number[]>([
     animalSpecies?.minHeartbeat ?? 0,
@@ -41,7 +45,7 @@ export function FormFields({ animalSpecies, onSubmit }: Props) {
       });
       await router.push("/animal-species");
     } catch (err) {
-      setErrorMessage("Something went wrong. Try again later.");
+      setErrorMessage(t("errorMessage"));
     }
   };
 
@@ -53,13 +57,13 @@ export function FormFields({ animalSpecies, onSubmit }: Props) {
           required
           fullWidth
           id="name"
-          label="Name"
+          label={t("name")}
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           error={!!errorMessage}
         />
-        <Typography gutterBottom>Heartbeat Range</Typography>
+        <Typography gutterBottom>{t("heartbeatRange")}</Typography>
         <Slider
           value={heartbeatRange}
           onChange={(e, newValue) => setHeartbeatRange(newValue as number[])}
@@ -68,7 +72,7 @@ export function FormFields({ animalSpecies, onSubmit }: Props) {
           min={0}
           max={200}
         />
-        <Typography gutterBottom>Respiration Rate Range</Typography>
+        <Typography gutterBottom>{t("respirationRateRange")}</Typography>
         <Slider
           value={respirationRateRange}
           onChange={(e, newValue) =>
@@ -79,7 +83,7 @@ export function FormFields({ animalSpecies, onSubmit }: Props) {
           min={0}
           max={100}
         />
-        <Typography gutterBottom>Temperature Range</Typography>
+        <Typography gutterBottom>{t("temperatureRange")}</Typography>
         <Slider
           value={temperatureRange}
           onChange={(e, newValue) => setTemperatureRange(newValue as number[])}
@@ -89,7 +93,7 @@ export function FormFields({ animalSpecies, onSubmit }: Props) {
           max={50}
         />
         <Button type="submit" fullWidth variant="contained" color="primary">
-          {animalSpecies ? "Edit" : "Create"}
+          {animalSpecies ? t("edit") : t("add")}
         </Button>
       </Stack>
       {errorMessage && (
