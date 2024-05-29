@@ -32,6 +32,7 @@
     "minTemperature": "Minimal temperature",
     "maxTemperature": "Maximal temperature",
     "lastMetrics": "Last metrics",
+    "avgMetrics": "Average metrics",
     "heartbeat": "Heartbeat",
     "respirationRate": "Respiration rate",
     "temperature": "Temperature",

@@ -1,0 +1,1 @@
+export { translateAnimalStatus } from "./main";

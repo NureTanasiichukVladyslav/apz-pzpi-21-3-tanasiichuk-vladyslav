@@ -5,6 +5,7 @@ import { Container, Grid, Stack, Typography } from "@mui/material";
 import { MetricLineChart } from "./ui";
 import { getAnimalMetricsData } from "@/services/get-animal-metrics";
 import initTranslations from "@/app/i18n";
+import { translateAnimalStatus } from "@/utils/translate-animal-status";
 
 export default async function Page({
   params: { id, locale },
@@ -52,13 +53,38 @@ export default async function Page({
       <Stack gap={2}>
         <Typography variant="h4">{animal.name}</Typography>
         {analitycs && (
-          <Stack direction="row" gap={2} alignItems="center" mt={2}>
-            <Typography variant="body1">
-              {t("status")}:{" "}
-              <strong style={{ textTransform: "capitalize" }}>
-                {analitycs.status}
-              </strong>
-            </Typography>
+          <Stack>
+            <Stack gap={2}>
+              <Typography variant="body1" fontWeight="600">
+                {t("avgMetrics")}:
+              </Typography>
+              <Stack direction="row">
+                <Typography>
+                  {t("heartbeat")}:{" "}
+                  <strong>{analitycs.heartbeat.toFixed(1)}</strong>
+                </Typography>
+              </Stack>
+              <Stack direction="row">
+                <Typography>
+                  {t("respirationRate")}:{" "}
+                  <strong>{analitycs.respirationRate.toFixed(1)}</strong>
+                </Typography>
+              </Stack>
+              <Stack direction="row">
+                <Typography>
+                  {t("temperature")}:{" "}
+                  <strong>{analitycs.temperature.toFixed(1)}</strong>
+                </Typography>
+              </Stack>
+            </Stack>
+            <Stack direction="row" gap={2} alignItems="center" mt={2}>
+              <Typography variant="body1">
+                {t("status")}:{" "}
+                <strong style={{ textTransform: "capitalize" }}>
+                  {translateAnimalStatus(locale, analitycs.status)}
+                </strong>
+              </Typography>
+            </Stack>
           </Stack>
         )}
         <Grid container justifyContent="center" spacing={4}>

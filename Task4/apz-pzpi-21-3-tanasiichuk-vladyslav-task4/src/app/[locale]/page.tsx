@@ -54,7 +54,7 @@ export default async function Home({
                   </Link>
                 </TableCell>
                 <TableCell align="right">{animal.species.name}</TableCell>
-                <TableCell align="right">{animal.gender}</TableCell>
+                <TableCell align="right">{t(animal.gender)}</TableCell>
                 <TableCell align="right">{animal.weight}</TableCell>
                 <TableCell align="right">
                   {formatDate(animal.dateOfBirth)}

@@ -18,6 +18,7 @@ import { getAnalitycs } from "@/services/get-analitycs";
 import { getAnimal } from "@/services/get-animal";
 import { formatMetricDate } from "@/utils/format-metric-date";
 import initTranslations from "@/app/i18n";
+import { translateAnimalStatus } from "@/utils/translate-animal-status";
 
 export default async function Page({
   params: { id, locale },
@@ -84,7 +85,7 @@ export default async function Page({
                 <Typography variant="body1">
                   {t("status")}:{" "}
                   <strong style={{ textTransform: "capitalize" }}>
-                    {analitycs.status}
+                    {translateAnimalStatus(locale, analitycs.status)}
                   </strong>
                 </Typography>
                 <Link href={`/animals/${id}/analitycs`} underline="hover">
