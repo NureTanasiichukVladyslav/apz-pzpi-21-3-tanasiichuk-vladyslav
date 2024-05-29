@@ -4,9 +4,6 @@ import { revalidateTag } from "@/utils/revalidate-tag";
 import { Button, Stack, TextField, Typography, Link } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-
-import { useCurrentLocale } from "next-i18n-router/client";
-import { i18nConfig } from "@/i18nConfig";
 import { useTranslation } from "react-i18next";
 
 export default function Page() {
@@ -33,7 +30,11 @@ export default function Page() {
         window.localStorage.setItem("access_token", response?.token);
       }
       revalidateTag("user");
-      router.push("/");
+      if (login === "admin") {
+        router.push("admin");
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       setErrorMessage(t("loginFailed"));
     }

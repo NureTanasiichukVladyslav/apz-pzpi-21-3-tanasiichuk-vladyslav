@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { i18nConfig } from "@/i18nConfig";
 import { MenuItem, Select } from "@mui/material";
 
-export default function LanguageChanger() {
+export function LanguageChanger() {
   const { i18n, t } = useTranslation();
   const currentLocale = i18n.language;
   const router = useRouter();

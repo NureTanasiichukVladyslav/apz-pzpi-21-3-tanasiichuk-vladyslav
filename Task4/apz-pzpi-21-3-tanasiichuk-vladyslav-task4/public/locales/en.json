@@ -1,5 +1,4 @@
 {
-    "greeting": "Have a great day!",
     "signIn": "Sign In",
     "login": "Login",
     "password": "Password",
@@ -40,5 +39,6 @@
     "watchDetailedAnalitycs": "Watch detailed analitycs",
     "time": "Time",
     "en": "English",
-    "ua": "Ukrainian"
+    "ua": "Ukrainian",
+    "export": "Export"
 }

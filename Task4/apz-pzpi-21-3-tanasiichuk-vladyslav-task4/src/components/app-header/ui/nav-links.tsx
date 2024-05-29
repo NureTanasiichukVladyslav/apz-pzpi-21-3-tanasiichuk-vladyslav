@@ -3,10 +3,9 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import { Button, Container, Link, Stack } from "@mui/material";
 import { fetchClient } from "@/utils/fetch";
-import { revalidateTag } from "@/utils/revalidate-tag";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import LanguageChanger from "./language-changer";
+import { LanguageChanger } from "./language-changer";
 
 interface Props {
   user?: { id: number; login: string };
@@ -21,7 +20,7 @@ export const NavLinks = ({ user }: Props) => {
     try {
       await router.push("/sign-in");
       await fetchClient.post("auth/logout");
-      revalidateTag("user");
+      router.refresh();
     } catch (err) {
       console.error(err);
     }

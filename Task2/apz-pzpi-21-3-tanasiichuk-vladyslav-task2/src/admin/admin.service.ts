@@ -25,7 +25,7 @@ export class AdminService {
           reject('Database export failed');
         } else {
           console.log(`Database exported successfully`);
-          resolve(`Database exported successfully to backup_${timestamp}.sql`);
+          resolve(`backup_${timestamp}.sql`);
         }
       });
     });
