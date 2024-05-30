@@ -6,12 +6,15 @@ import { fetchClient } from "@/utils/fetch";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { LanguageChanger } from "./language-changer";
+import { NotificationsMenu } from "./notifications-menu";
+import { NotificationDto } from "@/types";
 
 interface Props {
   user?: { id: number; login: string };
+  notifications?: NotificationDto[];
 }
 
-export const NavLinks = ({ user }: Props) => {
+export const NavLinks = ({ user, notifications }: Props) => {
   const router = useRouter();
 
   const { t } = useTranslation();
@@ -53,6 +56,7 @@ export const NavLinks = ({ user }: Props) => {
               <Link href="/animal-species" underline="hover">
                 <Typography fontWeight="400">{t("animalSpecies")}</Typography>
               </Link>
+              <NotificationsMenu notifications={notifications} />
               <Button onClick={handleLogout}>
                 <Typography fontWeight="400" textTransform="none">
                   {t("logOut")}

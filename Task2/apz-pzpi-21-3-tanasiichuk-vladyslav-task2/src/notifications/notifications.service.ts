@@ -13,6 +13,7 @@ export class NotificationService {
         message: true,
         createdAt: true,
       },
+      take: 10,
       where: {
         userId,
       },
