@@ -11,10 +11,14 @@ import { MetricModule } from './metrics';
 import { AnalitycsModule } from './analitycs';
 import { AdminModule } from './admin';
 import { DeviceModule } from './devices';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    CacheModule.register({
       isGlobal: true,
     }),
     JwtModule.registerAsync({

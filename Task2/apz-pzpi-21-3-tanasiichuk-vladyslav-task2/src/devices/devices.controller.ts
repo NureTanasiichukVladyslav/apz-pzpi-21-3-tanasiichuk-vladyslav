@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseIntPipe,
   Post,
@@ -15,6 +16,11 @@ import { CreateEditDeviceDto } from './dtos';
 @Controller('device')
 export class DeviceController {
   constructor(private deviceService: DeviceService) {}
+
+  @Get(':id')
+  async getDevice(@Param('id', ParseIntPipe) id: number) {
+    return await this.deviceService.getDevice(id);
+  }
 
   @Post()
   async createDevice(@Body() { animalId }: CreateEditDeviceDto) {
